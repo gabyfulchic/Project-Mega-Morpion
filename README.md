@@ -15,6 +15,31 @@ Ci-dessous on se mettra aussi le suivie du projet et l'avancement
 aussi. 
 ```  
   
+  
+## DEPENDENCIES
+  
+- Python 3.5 or more
+- Pip 
+  
+  
+## PYPI PKGS
+  
+```
+- gym
+- lib for RL (choose here :
+- numpy
+- random (by default on python)
+```
+  
+  
+## Install project
+  
+```
+- git clone https://github.com/haje01/gym-tictactoe.git  
+- cd gym-tictactoe/
+- pip install -r requirements.txt
+```
+    
 ![Just do it boy](https://media.giphy.com/media/YLHwkqayc1j7a/giphy.gif)
   
 ## Roadmap of what to do (single player)
