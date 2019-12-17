@@ -6,7 +6,9 @@ import numpy as np
 import gym_tictactoe
 import time, pickle, os
 
+#env = gym.make('FrozenLake8x8-v0')
 env = gym.make('tictactoe-v0')
+env.reset()
 epsilon = 0.9
 total_episodes = 10000
 max_steps = 100
@@ -14,22 +16,19 @@ lr_rate = 0.81
 gamma = 0.96
 
 def choose_action(state):
-    # action=0
+    action=0
     if np.random.uniform(0, 1) < epsilon:
         action = env.action_space.sample()
     else:
         action = np.argmax(Q[state, :])
     return action
 
-def learn(state, state2, reward, action, action2):
+def learn(state, state2, reward, action):
     old_value = Q[state, action]
-    learned_value = reward + gamma * Q[state2, action2]
+    learned_value = reward + gamma * np.max(Q[state2, :])
     Q[state, action] = (1 - lr_rate) * old_value +  lr_rate * learned_value
 
-# Instanciation de la Qtable avec des zéros
-dir(env)
-#Q = np.zeros((env.observation_space.n, env.action_space.n))
-#print(Q)
+Q = np.zeros((env.observation_space.n, env.action_space.n))
 
 # Start
 for episode in range(total_episodes):
@@ -37,23 +36,23 @@ for episode in range(total_episodes):
     t = 0
     while t < max_steps:
         #env.render()
-        #print(state)
         action = choose_action(state)  
         state2, reward, done, info = env.step(action)  
-        action2 = choose_action(state2)
-        learn(state, state2, reward, action, action2)
+        learn(state, state2, reward, action)
         state = state2
-        action = action2
         t += 1
         if done:
             break
 
 print(Q)
+
 np.save("qtable", Q)
+
+
 
 Q = np.load("qtable.npy")
 
-# Compte rendu et résultat de l'agent entraîné
+"""Evaluate agent's performance after Q-learning"""
 def evaluate():
   total_epochs, total_penalties = 0, 0
 
